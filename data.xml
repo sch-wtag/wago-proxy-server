@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note>
+    <to>User</to>
+    <from>Server</from>
+    <heading>Reminder</heading>
+    <body>This is your XML file!</body>
+</note>
