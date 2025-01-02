@@ -1,3 +1,14 @@
+const fc1 = require("../service/FC1");
+const fc2 = require("../service/FC2");
+const fc3 = require("../service/FC3");
+const fc4 = require("../service/FC4");
+const fc5 = require("../service/FC5");
+const fc6 = require("../service/FC6");
+const fc15 = require("../service/FC15");
+const fc16 = require("../service/FC16");
+const fc22 = require("../service/FC22");
+const fc23 = require("../service/FC23");
+
 const parseRequest = (data) => {
   const functionCode = data[7];
 
@@ -8,43 +19,53 @@ const parseRequest = (data) => {
   if (functionCode == 1) {
     console.log("*** FC1 - Read Coils ***");
 
-    response = getFC1Response();
+    response = fc1.validResponse();
+    // response = fc1.exceptionResponse();
   } else if (functionCode == 2) {
     console.log("*** FC2 - Read Discrete Inputs ***");
 
-    response = getFC2Response();
+    response = fc2.validResponse();
+    // response = fc2.exceptionResponse();
   } else if (functionCode == 3) {
     console.log("*** FC3 - Read Multiple Registers ***");
 
-    response = getFC3Response();
+    response = fc3.validResponse();
+    // response = fc3.exceptionResponse();
   } else if (functionCode == 4) {
     console.log("*** FC4 - Read Input Registers ***");
 
-    response = getFC4Response();
+    response = fc4.validResponse();
+    // response = fc4.exceptionResponse();
   } else if (functionCode == 5) {
     console.log("*** FC5 - Write Coil ***");
 
-    response = getFC5Response();
+    response = fc5.validResponse();
+    // response = fc5.exceptionResponse();
   } else if (functionCode == 6) {
     console.log("*** FC6 - Write Single Register ***");
 
-    response = getFC6Response();
+    response = fc6.validResponse();
+    // response = fc6.exceptionResponse();
   } else if (functionCode == 15) {
     console.log("*** FC15 - Write Multiple Coils ***");
 
-    response = getFC15Response();
+    response = fc15.validResponse();
+    // response = fc15.exceptionResponse();
   } else if (functionCode == 16) {
     console.log("*** FC16 - Write Multiple Registers ***");
 
-    response = getFC16Response();
+    response = fc16.validResponse();
+    // response = fc16.exceptionResponse();
   } else if (functionCode == 22) {
     console.log("*** FC22 - Mask Write Register ***");
 
-    response = getFC22Response();
+    response = fc22.validResponse();
+    // response = fc22.exceptionResponse();
   } else if (functionCode == 23) {
     console.log("*** FC23 - Read/Write Multiple Registers ***");
 
-    response = getFC23Response();
+    response = fc23.validResponse();
+    // response = fc23.exceptionResponse();
   }
 
   // Concatenate buffers as an array
@@ -63,124 +84,3 @@ const parseRequest = (data) => {
 };
 
 module.exports = { parseRequest };
-
-const getFC1Response = () => {
-  return (response = Buffer.from([
-    0x04, // length field
-    0x01, // Unit identifier
-    0x01, // Function code
-    0x01, // Byte count
-    0x12, // Bit values
-  ]));
-};
-
-const getFC2Response = () => {
-  return (response = Buffer.from([
-    0x04, // length field
-    0x01, // Unit identifier
-    0x02, // Function code
-    0x01, // Byte count
-    0x12, // Bit values
-  ]));
-};
-
-const getFC3Response = () => {
-  return (response = Buffer.from([
-    0x07, // length field
-    0x01, // Unit identifier
-    0x03, // Function code
-    0x04, // Byte count
-    0x12,
-    0x34, // Value of reg 0 (split into two bytes)
-    0x23,
-    0x45, // Value of reg 1 (split into two bytes)
-  ]));
-};
-
-const getFC4Response = () => {
-  return (response = Buffer.from([
-    0x07, // length field
-    0x01, // Unit identifier
-    0x04, // Function code
-    0x04, // Byte count
-    0x12,
-    0x34, // Value of reg 0 (split into two bytes)
-    0x23,
-    0x45, // Value of reg 1 (split into two bytes)
-  ]));
-};
-
-const getFC5Response = () => {
-  return (response = Buffer.from([
-    0x06, // length field
-    0x01, // Unit identifier
-    0x05, // Function code
-    0x00,
-    0x01, // Reference number
-    0xff,
-    0x00, // Value
-  ]));
-};
-
-const getFC6Response = () => {
-  return (response = Buffer.from([
-    0x06, // length field
-    0x01, // Unit identifier
-    0x06, // Function code
-    0x00,
-    0x01, // Reference number
-    0x12,
-    0x34, // Register value
-  ]));
-};
-
-const getFC15Response = () => {
-  return (response = Buffer.from([
-    0x06, // length field
-    0x01, // Unit identifier
-    0x0f, // Function code
-    0x00,
-    0x00, // Reference number
-    0x00,
-    0x10, // Bit count
-  ]));
-};
-
-const getFC16Response = () => {
-  return (response = Buffer.from([
-    0x06, // length field
-    0x01, // Unit identifier
-    0x10, // Function code
-    0x00,
-    0x00, // Reference number
-    0x00,
-    0x02, // Word count
-  ]));
-};
-
-const getFC22Response = () => {
-  return (response = Buffer.from([
-    0x08, // length field
-    0x01, // Unit identifier
-    0x10, // Function code
-    0x00,
-    0x00, // Reference number
-    0x00,
-    0x00, // AND mask
-    0xaa,
-    0xaa, // OR mask
-  ]));
-};
-
-const getFC23Response = () => {
-  return (response = Buffer.from([
-    0x07, // length field
-    0x01, // Unit identifier
-    0x17, // Function code
-    0x04, // Byte count
-    0x00,
-    0x04, // Reg1 value
-    0x56,
-    0x78, // Reg2 value
-  ]));
-};
