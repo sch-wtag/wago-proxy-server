@@ -10,9 +10,9 @@ const server = net.createServer((socket) => {
 
     const response = modbus.parseRequest(Buffer.from(data));
 
-    const sendInBuffer = true;
+    const sendInChunks = true;
 
-    if (sendInBuffer) {
+    if (sendInChunks) {
       console.log("Initial Response: ", response);
 
       const chunkSizes = [2, 3, 4];
